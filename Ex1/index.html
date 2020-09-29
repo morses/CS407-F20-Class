@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS 407 Exercises</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- load stylesheets, we'll use Bootstrap for easier styling, loaded from a content delivery network (CDN)
+         rather than from this folder -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- our own custom style definitions-->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- import javascript files, uses defer to defer execution until this document is fully parsed and the DOM is built,
+         we'll use jQuery to make modifying the DOM easier -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous" defer></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous" defer></script>
+    <!-- our own javascript -->
+    <script src="problems.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>  
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">CS 407</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <span class="nav-link">Problem Solving with Languages</span>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Reset Page</button>
+        </form>
+      </div>
+    </nav>
+
+    <main role="main" class="container">
+
+      <div class="page-heading">
+        <h1>Regular Expressions</h1>
+        <p class="lead">Solve these problems using regex's</p>
+      </div>
+
+      <!-- Problem #1 -->
+      <div class="card problem mb-5">
+        <h3 class="card-header">P1: Validate a US phone number</h3>
+        <div class="card-body">
+          <p class="problem-description">
+            A valid phone number within the <a href="https://en.wikipedia.org/wiki/North_American_Numbering_Plan">North American Numbering Plan</a> system must follow this notation:
+          </p>
+          <p class="text-center">NPA-NXX-xxxx</p>
+          <p>where each component is defined by</p>
+          <table class="table table-sm w-75 mx-auto">
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>Name</th>
+                <th>Number ranges</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>NPA</td>
+                <td>Area code</td>
+                <td>Allowed ranges: [2–9] for the first digit, and [0-9] for the second and third digits</td>
+              </tr>
+              <tr>
+                <td>NXX</td>
+                <td>Central office (exchange) code</td>
+                <td>Allowed ranges: [2–9] for the first digit, and [0–9] for both the second and third digits</td>
+              </tr>
+              <tr>
+                <td>xxxx</td>
+                <td>Line or subscriber number</td>
+                <td>[0–9] for each of the four digits</td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+        <div class="card-footer">
+          <label for="p1">Input <small class="text-muted">(enter a single value to test or a URL for a json test suite)</small></label>
+          <div class="input-group">
+            <input type="text" id="p1" name="p1-input" class="form-control">
+            <div class="input-group-append">
+              <button type="button" id="p1-button" class="btn btn-primary problem-input">Test</button>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end problem-->
+
+      <!-- Problem #2 -->
+      <div class="card problem mb-5">
+        <h3 class="card-header">P2: Validate a US phone number, better</h3>
+        <div class="card-body">
+          <p class="problem-description">
+            Repeat the previous problem but with the added restriction highlighted below.  This prevents exchange codes that look like well known "N11" codes like 911 or 411.
+          </p>
+          <table class="table table-sm w-75 mx-auto">
+            <thead>
+              <tr>
+                <th>Component</th>
+                <th>Name</th>
+                <th>Number ranges</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>NPA</td>
+                <td>Area code</td>
+                <td>Allowed ranges: [2–9] for the first digit, and [0-9] for the second and third digits</td>
+              </tr>
+              <tr>
+                <td>NXX</td>
+                <td>Central office (exchange) code</td>
+                <td>Allowed ranges: [2–9] for the first digit, and [0–9] for both the second and third digits <span class="text-info font-weight-bold">(however, in geographic area codes the third digit of the exchange cannot be 1 if the second digit is also 1). </span></td>
+              </tr>
+              <tr>
+                <td>xxxx</td>
+                <td>Line or subscriber number</td>
+                <td>[0–9] for each of the four digits</td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+        <div class="card-footer">
+          <label for="p2">Input <small class="text-muted">(enter a single value to test or a URL for a json test suite)</small></label>
+          <div class="input-group">
+            <input type="text" id="p2" name="p2-input" class="form-control">
+            <div class="input-group-append">
+              <button type="button" id="p2-button" class="btn btn-primary problem-input">Test</button>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end problem-->
+
+      <!-- Problem #3 -->
+      <div class="card problem mb-5">
+        <h3 class="card-header">P3: Extract Values from Windows Device Information</h3>
+        <div class="card-body">
+          <p class="problem-description">
+            Windows offers a way to get device information via the command line.  Let's say you have a script that needs to find the current screen resolution (x and y) and the name of the graphics device.  Executing <code>gwmi win32_VideoController</code> from a PowerShell prompt will yield a lot of info.  Here's what it says on my machine:
+          </p>
+          <div class="textarea mx-auto mb-3  pl-2">
+            <pre>__GENUS                      : 2
+__CLASS                      : Win32_VideoController
+__SUPERCLASS                 : CIM_PCVideoController
+__DYNASTY                    : CIM_ManagedSystemElement
+__RELPATH                    : Win32_VideoController.DeviceID="VideoController1"
+__PROPERTY_COUNT             : 59
+__DERIVATION                 : {CIM_PCVideoController, CIM_VideoController, CIM_Controller, CIM_LogicalDevice...}
+__SERVER                     : DESKTOP-EKIJVR7
+__NAMESPACE                  : root\cimv2
+__PATH                       : \\DESKTOP-EKIJVR7\root\cimv2:Win32_VideoController.DeviceID="VideoController1"
+AcceleratorCapabilities      :
+AdapterCompatibility         : NVIDIA
+AdapterDACType               : Integrated RAMDAC
+AdapterRAM                   : 4293918720
+Availability                 : 3
+CapabilityDescriptions       :
+Caption                      : NVIDIA GeForce GTX 1060 6GB
+ColorTableEntries            :
+ConfigManagerErrorCode       : 0
+ConfigManagerUserConfig      : False
+CreationClassName            : Win32_VideoController
+CurrentBitsPerPixel          : 32
+CurrentHorizontalResolution  : 3840
+CurrentNumberOfColors        : 4294967296
+CurrentNumberOfColumns       : 0
+CurrentNumberOfRows          : 0
+CurrentRefreshRate           : 59
+CurrentScanMode              : 4
+CurrentVerticalResolution    : 2160
+Description                  : NVIDIA GeForce GTX 1060 6GB
+DeviceID                     : VideoController1
+DeviceSpecificPens           :
+DitherType                   : 0
+DriverDate                   : 20200304000000.000000-000
+DriverVersion                : 26.21.14.4259
+ErrorCleared                 :
+ErrorDescription             :
+ICMIntent                    :
+ICMMethod                    :
+InfFilename                  : oem18.inf
+InfSection                   : Section094
+InstallDate                  :
+InstalledDisplayDrivers      : C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_5ef913e2bcf39373\nvldu
+                                mdx.dll,C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_5ef913e2bcf393
+                                73\nvldumdx.dll,C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd64_5ef913
+                                e2bcf39373\nvldumdx.dll,C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispi.inf_amd6
+                                4_5ef913e2bcf39373\nvldumdx.dll
+LastErrorCode                :
+MaxMemorySupported           :
+MaxNumberControlled          :
+MaxRefreshRate               : 75
+MinRefreshRate               : 23
+Monochrome                   : False
+Name                         : NVIDIA GeForce GTX 1060 6GB
+NumberOfColorPlanes          :
+NumberOfVideoPages           :
+PNPDeviceID                  : PCI\VEN_10DE&DEV_1C03&SUBSYS_85B61043&REV_A1\9&35D4F288&0&0008
+PowerManagementCapabilities  :
+PowerManagementSupported     :
+ProtocolSupported            :
+ReservedSystemPaletteEntries :
+SpecificationVersion         :
+Status                       : OK
+StatusInfo                   :
+SystemCreationClassName      : Win32_ComputerSystem
+SystemName                   : DESKTOP-EKIJVR7
+SystemPaletteEntries         :
+TimeOfLastReset              :
+VideoArchitecture            : 5
+VideoMemoryType              : 2
+VideoMode                    :
+VideoModeDescription         : 3840 x 2160 x 4294967296 colors
+VideoProcessor               : GeForce GTX 1060 6GB
+PSComputerName               : DESKTOP-EKIJVR7</pre>
+          </div>
+          <p>Extract the X and Y resolution from <code>VideoModeDescription</code> and the graphics card name from the <code>Name</code> descriptor.  Once you have them, print them to the console one item per line and return <code>true</code>.  Otherwise, if not found, return <code>false</code>.</p>
+          <p>If you are using OS X the same information is available from the command line by executing <code>system_profiler SPDisplaysDataType</code></p>
+        </div>
+        <div class="card-footer">
+          <label for="p3">Input <small class="text-muted">(enter a single value to test)</small></label>
+          <div class="input-group">
+            <input type="text" id="p3" name="p3-input" class="form-control">
+            <div class="input-group-append">
+              <button type="button" id="p3-button" class="btn btn-primary problem-input">Test</button>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end problem-->
+
+      <!-- Problem #4 -->
+      <div class="card problem mb-5">
+        <h3 class="card-header">P4: Extract One-Time Code from SMS Message</h3>
+        <div class="card-body">
+          <p class="problem-description">
+            Many websites (e.g. banks, credit card companies, Google suite, etc.) use an authentication workflow that includes sending the user a "one-time" code via SMS.  Here's one I received from US Bank:
+          </p>
+          <blockquote class="blockquote w-50 mx-auto bg-light pl-2">
+            <pre class="smaller">U.S. Bank Alerts:
+452854 is your code.  Do not share this
+code with someone contacting you.
+If you didn't make this request, please call
+800.USBANKS (872.2657).</pre>
+          </blockquote>
+          <p>Normally you have to open your messaging app, locate the message and code, copy or remember it, then switch back to the original page and enter the code.  I was surprised one day to have Safari on OS X display a popup with the code asking if I wanted to use it.  It had retrieved the code from the Messages app automatically.  That's handy (and a little scary).</p>
+          <p>To make this easier a simple standard has been proposed by Apple and Google: <a href="https://wicg.github.io/sms-one-time-codes/">Origin-bound one-time codes delivered via SMS</a>.  They propose that this one-time code from US Bank should be reformatted into a standard syntax, where it might look like this:</p>
+          <blockquote class="blockquote w-50 mx-auto bg-light pl-2">
+            <pre class="smaller">U.S. Bank Alerts:
+452854 is your code.  Do not share this
+code with someone contacting you.
+If you didn't make this request, please call
+800.USBANKS (872.2657).
+@usbank.com #452854</pre>
+          </blockquote>
+          <p>Pretty simple, the host and code go on the last line each preceeded by a special character.</p>
+          <p>Read the standard specification above and then write a regular expression to extract the host and code from a message.  Print out these results in the standardized format for an <em>origin-bound one-time code</em> like this: <code>(("https","usbank.com",null,null),"452854")</code>  As with the previous question, return true if the SMS message follows the correct syntax and return false otherwise.</p>
+        </div>
+        <div class="card-footer">
+          <label for="p4">Input <small class="text-muted">(enter a single value to test)</small></label>
+          <div class="input-group">
+            <input type="text" id="p4" name="p4-input" class="form-control">
+            <div class="input-group-append">
+              <button type="button" id="p4-button" class="btn btn-primary problem-input">Test</button>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end problem-->
+
+      <!-- Problem #5 -->
+      <div class="card problem mb-5">
+        <h3 class="card-header">P5: Extract all the Numbers from Text</h3>
+        <div class="card-body">
+          <p class="problem-description">
+            Here's a made-up example.  For some reason we need to extract all the numbers from some text.  Furthermore, we need to distinguish between integers, floats and hexadecimals (hex literals).  Search through the text and place each type in it's own array.  Print out the three arrays for the whole document.  For example:
+          </p>
+          <blockquote class="blockquote w-75 mx-auto bg-light pl-3">
+            <pre class="smaller">Fiscal year ending Jun 30, 2020:  Profit margin was 30.96, operating margin 37.03%.
+Revenue was up at 143.02e9 dollars.  Revenue per share fell to 18 dollars.  Float %, 
+reported in hex was 0x4fa20, while short % was 0x99cb1
+Fractional share volume was -1.3e-4</pre>
+          </blockquote>
+          <p>Your output for this would be</p> 
+          <blockquote class="blockquote w-75 mx-auto bg-light pl-3">
+            <pre class="smaller">Integers: [30,2020,18]
+Floats: [30.96, 37.03, 143.02e9,-1.3e-4]
+Hex: ["0xfa20","0x99cb1"]</pre>
+          </blockquote>
+        </div>
+        <div class="card-footer">
+          <label for="p5">Input <small class="text-muted">(enter a single value to test)</small></label>
+          <div class="input-group">
+            <input type="text" id="p5" name="p5-input" class="form-control">
+            <div class="input-group-append">
+              <button type="button" id="p5-button" class="btn btn-primary problem-input">Test</button>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end problem-->
+
+      <!-- Problem #6 -->
+      <div class="card problem mb-5">
+        <h3 class="card-header">P6: This one is here for you to try other problems.  It will route to the function p6</h3>
+        <div class="card-body">
+          <p class="problem-description">
+            
+          </p>
+          
+          
+        </div>
+        <div class="card-footer">
+          <label for="p6">Input <small class="text-muted">(enter a single value to test)</small></label>
+          <div class="input-group">
+            <input type="text" id="p6" name="p6-input" class="form-control">
+            <div class="input-group-append">
+              <button type="button" id="p6-button" class="btn btn-primary problem-input">Test</button>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end problem-->
+
+    </main><!-- /.container -->
+
+    <!-- Bootstrap modal to show batch test results -->
+    <div class="modal fade" id="batchTestResultsModal" tabindex="-1" role="dialog" aria-labelledby="batchTestResultsModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="batchTestResultsModalTitle">Batch Test Results</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-sm table-borderless" id="batchTestResultsModalTable">
+              <thead>
+                <tr>
+                  <th>Input</th>
+                  <th>Expected</th>
+                  <th>Actual</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal to display an error when trying to load a remote json file for batch testing -->
+    <div class="modal" id="errorModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Error</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p class="alert alert-danger"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Dismiss</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </body>
+</html>
