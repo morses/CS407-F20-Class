@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS 407 Exercises</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- load stylesheets, we'll use Bootstrap for easier styling, loaded from a content delivery network (CDN)
+         rather than from this folder -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- our own custom style definitions-->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- import javascript files, uses defer to defer execution until this document is fully parsed and the DOM is built,
+         we'll use jQuery to make modifying the DOM easier -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous" defer></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous" defer></script>
+    <!-- our own javascript -->
+    <script src="fsm.js"></script>
+    <script src="problems.js" defer></script>
+    <script src="script.js" defer></script>
+    <style>
+      .color1 {
+        background-color: #cfebfc;
+      }
+      .color2 {
+        background-color: rgb(250, 255, 241);
+      }
+      .output p {
+        font-family:monospace;
+        margin-bottom:0;
+      }
+    </style>
+  </head>  
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">CS 407</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <span class="nav-link">Problem Solving with Languages</span>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Reset Page</button>
+        </form>
+      </div>
+    </nav>
+
+    <main role="main" class="container">
+
+      <div class="page-heading">
+        <h1>Finite State Machines</h1>
+        <p class="lead">Solve these problems using FSM's</p>
+      </div>
+
+      <!-- Problem #1 -->
+      <div class="card problem mb-5">
+        <h3 class="card-header">P1: Split String on Character</h3>
+        <div class="card-body">
+          <p class="problem-description">
+            Split a string on a single character, placing the results into an array.  Enter the character to split on as the very first char in the string, i.e. (don't enter with the quotes though)
+          </p>
+          <blockquote class="blockquote w-75 mx-auto bg-light pl-2">
+            <pre class="smaller">" She sells sea shells at the sea shore" ==> ["She","sells","sea","shells","at","the","sea","shore"]
+"lShe sells sea shells at the sea shore" ==> ["She se","","s sea she","","s at the sea shore"]
+"\nThis is line 1\nand line 2\nthen line 3" ==> ["This is line 1", "and line 2", "then line 3"]
+            </pre>
+          </blockquote>
+          <p>You should be reproducing the behavior of the built-in <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split">string split method</a>, so return whether it matches the correct behavoir or not.  Print to the console the result of your split.</p>
+        </div>
+        <div class="card-footer">
+          <label for="p1">Input <small class="text-muted">(enter a single value to test or a URL for a json test suite)</small></label>
+          <div class="input-group">
+            <input type="text" id="p1" name="p1-input" class="form-control">
+            <div class="input-group-append">
+              <button type="button" id="p1-button" class="btn btn-primary problem-input">Test</button>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end problem-->
+
+      <!-- Problem #2 -->
+      <div class="card problem mb-5">
+        <h3 class="card-header">P2: Output in HTML with line numbers and alternating colors of lines</h3>
+        <div class="card-body">
+          <p class="problem-description">
+            Now show that you can implement your own FSM solution.  As input we'll take any text input, single or multi-line.  The goal is to add line numbers to the beginning of each line and then highlight every other line in a different color.  Here's an example.
+          </p>
+          <h4>The Input</h4>
+          <blockquote class="blockquote w-75 mx-auto bg-light pl-2">
+            <pre class="smaller">Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+Asperiores, esse ab veritatis perferendis, exercitationem nisi quia 
+non illo dignissimos suscipit fugiat consequatur atque saepe alias facere! 
+Nihil dolores consequuntur in.
+            </pre>
+          </blockquote>
+          <h4>Your Output</h4>
+          <blockquote class="blockquote w-75 mx-auto bg-light pl-2">
+            <pre class="smaller"><span class="color1">1  Lorem ipsum dolor sit amet consectetur adipisicing elit.</span> 
+<span class="color2">2  Asperiores, esse ab veritatis perferendis, exercitationem nisi quia</span> 
+<span class="color1">3  non illo dignissimos suscipit fugiat consequatur atque saepe alias facere!</span> 
+<span class="color2">4  Nihil dolores consequuntur in.</span>
+            </pre>
+          </blockquote>
+          
+        </div>
+        <div class="card-footer">
+          <label for="p2">Input <small class="text-muted">(enter a single value to test)</small></label>
+          <div class="input-group">
+            <input type="text" id="p2" name="p2-input" class="form-control">
+            <div class="input-group-append">
+              <button type="button" id="p2-button" class="btn btn-primary problem-input">Test</button>
+            </div>
+          </div>
+        </div>
+        <div id="p2-output" style="padding: 10px 0px 10px 15px">
+          <h4>Output</h4>
+          <p class="output"></p>
+        </div>
+      </div> <!-- end problem-->
+      
+      <!-- Problem #3 -->
+      <div class="card problem mb-5">
+        <h3 class="card-header">P3: Extract One-Time Code from SMS Message</h3>
+        <div class="card-body">
+          <p class="problem-description">
+            Many websites (e.g. banks, credit card companies, Google suite, etc.) use an authentication workflow that includes sending the user a "one-time" code via SMS.  Here's one I received from US Bank:
+          </p>
+          <blockquote class="blockquote w-50 mx-auto bg-light pl-2">
+            <pre class="smaller">U.S. Bank Alerts:
+452854 is your code.  Do not share this
+code with someone contacting you.
+If you didn't make this request, please call
+800.USBANKS (872.2657).</pre>
+          </blockquote>
+          <p>Normally you have to open your messaging app, locate the message and code, copy or remember it, then switch back to the original page and enter the code.  I was surprised one day to have Safari on OS X display a popup with the code asking if I wanted to use it.  It had retrieved the code from the Messages app automatically.  That's handy (and a little scary).</p>
+          <p>To make this easier a simple standard has been proposed by Apple and Google: <a href="https://wicg.github.io/sms-one-time-codes/"></a>.  They propose that this one-time code from US Bank should be reformatted into a standard syntax, where it might look like this:</p>
+          <blockquote class="blockquote w-50 mx-auto bg-light pl-2">
+            <pre class="smaller">U.S. Bank Alerts:
+452854 is your code.  Do not share this
+code with someone contacting you.
+If you didn't make this request, please call
+800.USBANKS (872.2657).
+@usbank.com #452854</pre>
+          </blockquote>
+          <p>Pretty simple, the host and code go on the last line each preceeded by a special character.</p>
+          <p>Read the standard specification above and then write a regular expression to extract the host and code from a message.  Print out these results in the standardized format for an <em>origin-bound one-time code</em> like this: <code>(("https","usbank.com",null,null),"452854")</code>  As with the previous question, return true if the SMS message follows the correct syntax and return false otherwise.</p>
+        </div>
+        <div class="card-footer">
+          <label for="p3">Input <small class="text-muted">(enter a single value to test)</small></label>
+          <div class="input-group">
+            <input type="text" id="p3" name="p3-input" class="form-control">
+            <div class="input-group-append">
+              <button type="button" id="p3-button" class="btn btn-primary problem-input">Test</button>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end problem-->
+
+      <!-- Problem #4 -->
+      <div class="card problem mb-5">
+        <h3 class="card-header">P4: Coming soon</h3>
+        <div class="card-body">
+          <p class="problem-description">
+            Description 
+          </p>
+          
+          
+        </div>
+        <div class="card-footer">
+          <label for="p4">Input <small class="text-muted">(enter a single value to test)</small></label>
+          <div class="input-group">
+            <input type="text" id="p4" name="p4-input" class="form-control">
+            <div class="input-group-append">
+              <button type="button" id="p4-button" class="btn btn-primary problem-input">Test</button>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end problem-->
+
+      <!-- Problem #5 -->
+      <div class="card problem mb-5">
+        <h3 class="card-header">P5: Title</h3>
+        <div class="card-body">
+          <p class="problem-description">
+            Description
+          </p>
+          
+          
+        </div>
+        <div class="card-footer">
+          <label for="p5">Input <small class="text-muted">(enter a single value to test)</small></label>
+          <div class="input-group">
+            <input type="text" id="p5" name="p5-input" class="form-control">
+            <div class="input-group-append">
+              <button type="button" id="p5-button" class="btn btn-primary problem-input">Test</button>
+            </div>
+          </div>
+        </div>
+      </div> <!-- end problem-->
+
+    </main><!-- /.container -->
+
+    <!-- Bootstrap modal to show batch test results -->
+    <div class="modal fade" id="batchTestResultsModal" tabindex="-1" role="dialog" aria-labelledby="batchTestResultsModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="batchTestResultsModalTitle">Batch Test Results</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-sm table-borderless" id="batchTestResultsModalTable">
+              <thead>
+                <tr>
+                  <th>Input</th>
+                  <th>Expected</th>
+                  <th>Actual</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal to display an error when trying to load a remote json file for batch testing -->
+    <div class="modal" id="errorModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Error</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p class="alert alert-danger"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Dismiss</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
