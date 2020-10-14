@@ -3,10 +3,78 @@
    the DOM with jQuery as shown where needed.
 */
 
+// Our predicates
+const matchSingleChar = char => charIn => char === charIn;
+const matchUndefined  = char => typeof char == 'undefined';
+const matchAnything   = _ => true;
+
+// Our functions
+const nop = function(){}
+
+function accumulateOneSection(charIn,context)
+{
+    context.acc.push(charIn);
+}
+
+function clearAccumulator(charIn,context)
+{
+    context.output.push(context.acc.join(""));
+    context.acc = [];
+}
+
 function p1(input)
 {
+    const spl = input[0];
+
+    const context = {
+        output: [],
+        acc: []
+    };
+
+    // Create our FSM object
+    const fsm = new FSM(3,context);
+
+    // Add rules to the state machine (in the order we want the predicates to be checked)
+    fsm.addRule(0,matchSingleChar(spl),clearAccumulator,1);
+    fsm.addRule(0,matchUndefined,clearAccumulator,2);
+    fsm.addRule(0,matchAnything,accumulateOneSection,0);
+    fsm.addRule(1,matchSingleChar(spl),clearAccumulator,0);
+    fsm.addRule(1,matchUndefined,clearAccumulator,2);
+    fsm.addRule(1,matchAnything,accumulateOneSection,1);
+    fsm.addRule(2,matchUndefined,nop,2);
+    fsm.addRule(2,matchAnything,nop,2);
+
+    // Run the state machine on the input
+    // (run it one past the end of the string to get undefined as the last char read)
+    for(let i = 1; i <= input.length; i++)
+    {
+        fsm.advance(input[i]);
+        console.log("fsm state = " + fsm.state);
+    }
+
+    alert(context.output);
     return false;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function p2(input)
 {
