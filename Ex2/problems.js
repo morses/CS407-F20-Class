@@ -53,22 +53,54 @@ function p1(input)
     }
 
     alert(context.output);
-    return false;
+    // See if we got the same as built-in split
+    return context.output.equals(p1_test(input));
 }
 
+/* Function to easily compare our output with the built-in string split */
+function p1_test(input)
+{
+    const spl = input[0];
+    const test_output = input.slice(1).split(spl);
+    console.log(test_output);
+    return test_output;
+}
 
+// Useful utility for comparing arrays (deep comparison)
+// From top answer in: https://stackoverflow.com/questions/7837456/how-to-compare-arrays-in-javascript
+// Warn if overriding existing method
+if(Array.prototype.equals)
+    console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
+// attach the .equals method to Array's prototype to call it on any array
+Array.prototype.equals = function (array) 
+{
+    // if the other array is a falsy value, return
+    if (!array)
+        return false;
 
+    // compare lengths - can save a lot of time 
+    if (this.length != array.length)
+        return false;
 
-
-
-
-
-
-
-
-
-
-
+    for (var i = 0, l=this.length; i < l; i++) 
+    {
+        // Check if we have nested arrays
+        if (this[i] instanceof Array && array[i] instanceof Array) 
+        {
+            // recurse into the nested arrays
+            if (!this[i].equals(array[i]))
+                return false;       
+        }           
+        else if (this[i] != array[i]) 
+        { 
+            // Warning - two different object instances will never be equal: {x:20} != {x:20}
+            return false;   
+        }           
+    }       
+    return true;
+}
+// Hide method from for-in loops
+Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 
 
 
