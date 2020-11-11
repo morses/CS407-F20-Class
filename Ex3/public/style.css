@@ -1,0 +1,28 @@
+/* Our own custom styles */
+
+body 
+{
+    padding-top: 5rem;
+}
+
+.page-heading 
+{
+    padding: 3rem 1.5rem;
+    text-align: center;
+}
+
+.textarea
+{
+    width:75%;
+    background-color:#eee;
+    overflow:hidden;
+    height:250px;
+    max-height:250px;
+    border:1px solid #ccc;
+    overflow-y: auto;
+  }
+
+  pre.smaller 
+  {
+      font-size: 70%;
+  }

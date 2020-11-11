@@ -1,0 +1,18 @@
+HTTP/2 200 OK
+server: nginx/1.15.11
+date: Sun, 08 Nov 2020 22:43:53 GMT
+content-type: text/html
+last-modified: Tue, 31 Dec 2019 00:00:36 GMT
+vary: Accept-Encoding
+etag: W/"5e0a8fa4-188f"
+expires: Sat, 28 Nov 2020 22:43:53 GMT
+cache-control: max-age=1728000
+x-wou-loc2: homedir static doc
+strict-transport-security: max-age=15768000; includeSubdomains; preload
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+x-wou-uri: /~morses/index.html
+x-wou-file: /nfs/kingpin/homem/morses/public_html/index.html
+content-encoding: gzip
+X-Firefox-Spdy: h2
+

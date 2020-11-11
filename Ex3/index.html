@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS 407 Exercises</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- load stylesheets, we'll use Bootstrap for easier styling, loaded from a content delivery network (CDN)
+         rather than from this folder -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- our own custom style definitions-->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="http.css">
+    
+    <!-- import javascript files, uses defer to defer execution until this document is fully parsed and the DOM is built,
+         we'll use jQuery to make modifying the DOM easier -->
+         <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous" defer></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous" defer></script>
+    <!-- our own javascript -->
+    <script src="script.js" defer></script>
+    <script src="problems.js" defer></script>
+    <style>
+      .color1 {
+        background-color: #cfebfc;
+      }
+      .color2 {
+        background-color: rgb(250, 255, 241);
+      }
+      .output p {
+        font-family:monospace;
+        margin-bottom:0;
+      }
+    </style>
+  </head>  
+  <body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">CS 407</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <span class="nav-link">Problem Solving with Languages</span>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Reset Page</button>
+        </form>
+      </div>
+    </nav>
+
+    <main role="main" class="container">
+
+      <div class="page-heading">
+        <h1>Grammars and Parsing</h1>
+        <p class="lead">Using ANTLR4</p>
+      </div>
+
+      <!-- Problem #1 -->
+      <div class="card problem mb-5">
+        <h3 class="card-header">P1: HTTP Head Syntax Highlighter</h3>
+        <div class="card-body">
+          <p class="problem-description">
+            Syntax highlight the head of HTTP requests and responses.
+          </p>
+          <blockquote class="blockquote w-75 mx-auto bg-light pl-2">
+            <pre class="smaller">GET /~morses/index.html HTTP/2
+Host: people.wou.edu
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+TE: Trailers
+            </pre>
+          </blockquote>
+          <p>Turns into:</p><blockquote class="blockquote w-75 mx-auto bg-light pl-2">
+            <pre class="smaller"><div class="request">
+  <span class="method">GET</span> <span class="request-target">/~morses/index.html</span> HTTP/2</span>
+  <span class="key">Host</span>: <span class="value">people.wou.edu</span>
+  <span class="key">User-Agent</span>: <span class="value">Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0</span>
+  <span class="key">Accept</span>: <span class="value">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</span>
+  <span class="key">Accept-Language</span>: <span class="value">en-US,en;q=0.5</span>
+  <span class="key">Accept-Encoding</span>: <span class="value">gzip, deflate, br</span>
+  <span class="key">Connection</span>: <span class="value">keep-alive</span>
+  <span class="key">Upgrade-Insecure-Requests</span>: <span class="value">1</span>
+  <span class="key">TE</span>: <span class="value">Trailers</span>
+  
+</div></pre>
+      </blockquote>
+      <p>And yes, I made the starting colors so awful on purpose so you'd just have to change them!</p>
+        <p>The response:</p>
+        <blockquote class="blockquote w-75 mx-auto bg-light pl-2">
+          <pre class="smaller">HTTP/2 200 OK
+server: nginx/1.15.11
+date: Sun, 08 Nov 2020 22:43:53 GMT
+content-type: text/html
+last-modified: Tue, 31 Dec 2019 00:00:36 GMT
+vary: Accept-Encoding
+etag: W/"5e0a8fa4-188f"
+expires: Sat, 28 Nov 2020 22:43:53 GMT
+cache-control: max-age=1728000
+x-wou-loc2: homedir static doc
+strict-transport-security: max-age=15768000; includeSubdomains; preload
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+x-wou-uri: /~morses/index.html
+x-wou-file: /nfs/kingpin/homem/morses/public_html/index.html
+content-encoding: gzip
+X-Firefox-Spdy: h2
+
+</pre>
+        </blockquote>
+        <p>Turns into:</p>
+        <blockquote class="blockquote w-75 mx-auto bg-light pl-2">
+          <pre class="smaller"><div class="response">HTTP/2 <span class="status-code">200</span> OK
+<span class="key">server</span>: <span class="value">nginx/1.15.11</span>
+<span class="key">date</span>: <span class="value">Sun, 08 Nov 2020 22:43:53 GMT</span>
+<span class="key">content-type</span>: <span class="value">text/html</span>
+<span class="key">last-modified</span>: <span class="value">Tue, 31 Dec 2019 00:00:36 GMT</span>
+<span class="key">vary</span>: <span class="value">Accept-Encoding</span>
+<span class="key">etag</span>: <span class="value">W/"5e0a8fa4-188f"</span>
+<span class="key">expires</span>: <span class="value">Sat, 28 Nov 2020 22:43:53 GMT</span>
+<span class="key">cache-control</span>: <span class="value">max-age=1728000</span>
+<span class="key">x-wou-loc2</span>: <span class="value">homedir static doc</span>
+<span class="key">strict-transport-security</span>: <span class="value">max-age=15768000; includeSubdomains; preload</span>
+<span class="key">x-frame-options</span>: <span class="value">SAMEORIGIN</span>
+<span class="key">x-content-type-options</span>: <span class="value">nosniff</span>
+<span class="key">x-wou-uri</span>: <span class="value">/~morses/index.html</span>
+<span class="key">x-wou-file</span>: <span class="value">/nfs/kingpin/homem/morses/public_html/index.html</span>
+<span class="key">content-encoding</span>: <span class="value">gzip</span>
+<span class="key">X-Firefox-Spdy</span>: <span class="value">h2</span>
+
+</pre>
+        </blockquote>
+      </div>
+        </div>
+        <div class="card-footer">
+          <label for="p1">Input <small class="text-muted"></small></label>
+          
+          <div class="input-group">
+            <textarea type="text" id="p1" name="p1-input" class="form-control" rows="10" cols="40"></textarea>
+          </div>
+          <p>Select ANTLR4 tree traversal method:</p>
+            <div>
+              <input type="radio" id="listener" name="tree-method" value="listener"
+                    checked>
+              <label for="listener">Listener</label>
+            </div>
+            <div>
+              <input type="radio" id="visitor" name="tree-method" value="visitor">
+              <label for="visitor">Visitor</label>
+            </div>
+          <div>
+            <button type="button" id="p1-button" class="btn btn-primary problem-input">Colorize</button>
+            <button type="button" id="p1-button-clear" class="btn btn-success">Clear Input</button>
+          </div>
+          <div class="m-4"><p>Output:</p><pre id="p1-output"></pre></div>
+        </div>
+      </div> <!-- end problem-->
+
+      
+
+    </main><!-- /.container -->
+
+    <!-- Bootstrap modal to show batch test results -->
+    <div class="modal fade" id="batchTestResultsModal" tabindex="-1" role="dialog" aria-labelledby="batchTestResultsModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="batchTestResultsModalTitle">Batch Test Results</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-sm table-borderless" id="batchTestResultsModalTable">
+              <thead>
+                <tr>
+                  <th>Input</th>
+                  <th>Expected</th>
+                  <th>Actual</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal to display an error when trying to load a remote json file for batch testing -->
+    <div class="modal" id="errorModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Error</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p class="alert alert-danger"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Dismiss</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

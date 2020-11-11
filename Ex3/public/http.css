@@ -1,0 +1,35 @@
+.request {
+    background-color: rgb(252, 205, 252);
+}
+
+.response {
+    background-color: rgb(173, 233, 220);
+}
+
+.status-line {
+    border-bottom: 2px solid rgba(0,0,0,0.452);
+}
+
+.request-line {
+    border-bottom: 2px solid rgba(0, 0, 255, 0.452);
+}
+
+.method {
+    color: orange;
+}
+
+.request-target {
+    color: chartreuse;
+}
+
+.status-code {
+    color: red;
+}
+
+.key {
+    color: rgb(170, 73, 89);
+}
+
+.value {
+    color: blueviolet;
+}
