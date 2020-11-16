@@ -16,12 +16,12 @@ const path = require('path');
 // packages for our solution
 const antlr4 = require('antlr4/index');
 
-/*const HttpLexer = require('./HttpLexer');
+const HttpLexer = require('./HttpLexer');
 const HttpParser = require('./HttpParser');
 const HttpColorizerVisitor = require('./HttpColorizerVisitor').HttpColorizerVisitor;
 const HttpColorizerListener = require('./HttpColorizerListener').HttpColorizerListener;
 //const HttpErrorListener = require('./HttpErrorListener').HttpErrorListener;
-*/
+
 
 // Set the port to listen on, either through the command line or default to 5000
 const port = process.env.PORT || 5000;
@@ -51,7 +51,7 @@ app.post('/problem1', function(req, res) {
     let method = req.body.treeMethod;   // listener or visitor
 
     let chars = new antlr4.InputStream(input);
-/*    let lexer = new HttpLexer.HttpLexer(chars);
+    let lexer = new HttpLexer.HttpLexer(chars);
     let tokens = new antlr4.CommonTokenStream(lexer);
     let parser = new HttpParser.HttpParser(tokens);
     parser.buildParseTrees = true;
@@ -59,10 +59,11 @@ app.post('/problem1', function(req, res) {
 
     if( method == 'visitor' )
     {
-      let colorizer = new HttpColorizerVisitor(res);
+      let colorizer = new HttpColorizerVisitor();
       // the tree is the first context
       let output = colorizer.visitMessage(tree);
       res.write(output);
+      //res.write('Visitor not implemented yet');
     }
     else if( method == 'listener' )
     {
@@ -73,8 +74,6 @@ app.post('/problem1', function(req, res) {
     {
       res.write("No tree traversal method requested.");
     }
-*/
-    res.write('Nothing implemented yet');    
 
     res.end();
 });
